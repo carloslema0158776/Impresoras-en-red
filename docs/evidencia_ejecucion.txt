@@ -1,0 +1,21 @@
+Una impresora disponible y dos solicitudes: S1 y S2.
+
+entero / sin Lock
+  Aceptadas (2): S1, S2
+  Rechazadas: -
+  Estado final: 0
+
+entero / con Lock
+  Aceptadas (1): S1
+  Rechazadas: S2
+  Estado final: 0
+
+diccionario / sin Lock
+  Aceptadas (2): S1, S2
+  Rechazadas: -
+  Estado final: {'P1': 'S1'}
+
+diccionario / con Lock
+  Aceptadas (1): S1
+  Rechazadas: S2
+  Estado final: {'P1': 'S1'}
