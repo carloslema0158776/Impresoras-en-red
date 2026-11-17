@@ -1,21 +1,26 @@
-Una impresora disponible y dos solicitudes: S1 y S2.
+=== SISTEMA DE IMPRESORAS EN RED ===
+Dos clientes intentan reservar la última impresora.
 
-entero / sin Lock
-  Aceptadas (2): S1, S2
-  Rechazadas: -
-  Estado final: 0
+--- ENTERO | sin mutex ---
+  [ACEPTADA] S1: se registró la reserva.
+  [ACEPTADA] S2: se registró la reserva.
+  Cupos libres al finalizar: 0.
+  [DOBLE RESERVA] Dos clientes obtuvieron un solo cupo.
 
-entero / con Lock
-  Aceptadas (1): S1
-  Rechazadas: S2
-  Estado final: 0
+--- ENTERO | con mutex ---
+  [ACEPTADA] S1: se registró la reserva.
+  [RECHAZADA] S2: no quedan impresoras libres.
+  Cupos libres al finalizar: 0.
+  [RESULTADO CORRECTO] Solo se aceptó una reserva.
 
-diccionario / sin Lock
-  Aceptadas (2): S1, S2
-  Rechazadas: -
-  Estado final: {'P1': 'S1'}
+--- DICCIONARIO | sin mutex ---
+  [ACEPTADA] S1: se registró la reserva.
+  [ACEPTADA] S2: se registró la reserva.
+  Impresora P1: asignada a S1.
+  [DOBLE RESERVA] Dos clientes obtuvieron un solo cupo.
 
-diccionario / con Lock
-  Aceptadas (1): S1
-  Rechazadas: S2
-  Estado final: {'P1': 'S1'}
+--- DICCIONARIO | con mutex ---
+  [ACEPTADA] S1: se registró la reserva.
+  [RECHAZADA] S2: no quedan impresoras libres.
+  Impresora P1: asignada a S1.
+  [RESULTADO CORRECTO] Solo se aceptó una reserva.
