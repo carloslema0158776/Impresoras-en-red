@@ -1,0 +1,111 @@
+Ejecución real: python3 impresoras.py
+Entradas enviadas: 6 (comparar), 0 (salir).
+
+
+=== SISTEMA DE IMPRESORAS EN RED ===
+Configuración: 2 clientes / 1 impresoras
+1. Configurar clientes e impresoras
+2. Entero sin mutex
+3. Entero con mutex
+4. Diccionario sin mutex
+5. Diccionario con mutex
+6. Comparar las cuatro versiones
+0. Salir
+Opción:
+=== ENTERO / sin mutex ===
+Registro al terminar, ordenado por finalización de operaciones.
+Antes: lectura usada para decidir. Después: captura tras la operación.
+Los hilos pueden intercalarse; la captura no es el estado final global.
+
+Hilo: S2 | Operación: Reservar una impresora
+  Antes: 1
+  Resultado: ACEPTADA
+  Después: 0
+
+Hilo: S1 | Operación: Reservar una impresora
+  Antes: 1
+  Resultado: ACEPTADA
+  Después: 0
+
+ESTADO FINAL: 0
+Aceptadas: 2 | Rechazadas: 0
+Reservas guardadas: 1
+[CONDICIÓN DE CARRERA] Las aceptaciones no coinciden con las reservas guardadas.
+
+=== ENTERO / con mutex ===
+Registro al terminar, ordenado por finalización de operaciones.
+Antes: lectura usada para decidir. Después: captura tras la operación.
+Los hilos pueden intercalarse; la captura no es el estado final global.
+
+Hilo: S1 | Operación: Reservar una impresora
+  Antes: 1
+  Resultado: ACEPTADA
+  Después: 0
+
+Hilo: S2 | Operación: Reservar una impresora
+  Antes: 0
+  Resultado: RECHAZADA: sin disponibilidad
+  Después: 0
+
+ESTADO FINAL: 0
+Aceptadas: 1 | Rechazadas: 1
+Reservas guardadas: 1
+[ESTADO CONSISTENTE] Cada aceptación tiene una reserva registrada.
+
+=== DICCIONARIO / sin mutex ===
+Registro al terminar, ordenado por finalización de operaciones.
+Antes: lectura usada para decidir. Después: captura tras la operación.
+Los hilos pueden intercalarse; la captura no es el estado final global.
+
+Hilo: S2 | Operación: Reservar una impresora
+  Antes: {'P1': None}
+  Resultado: ACEPTADA
+  Después: {'P1': 'S2'}
+
+Hilo: S1 | Operación: Reservar una impresora
+  Antes: {'P1': None}
+  Resultado: ACEPTADA
+  Después: {'P1': 'S1'}
+
+ESTADO FINAL: {'P1': 'S1'}
+Aceptadas: 2 | Rechazadas: 0
+Reservas guardadas: 1
+[CONDICIÓN DE CARRERA] Las aceptaciones no coinciden con las reservas guardadas.
+
+=== DICCIONARIO / con mutex ===
+Registro al terminar, ordenado por finalización de operaciones.
+Antes: lectura usada para decidir. Después: captura tras la operación.
+Los hilos pueden intercalarse; la captura no es el estado final global.
+
+Hilo: S1 | Operación: Reservar una impresora
+  Antes: {'P1': None}
+  Resultado: ACEPTADA
+  Después: {'P1': 'S1'}
+
+Hilo: S2 | Operación: Reservar una impresora
+  Antes: {'P1': 'S1'}
+  Resultado: RECHAZADA: sin disponibilidad
+  Después: {'P1': 'S1'}
+
+ESTADO FINAL: {'P1': 'S1'}
+Aceptadas: 1 | Rechazadas: 1
+Reservas guardadas: 1
+[ESTADO CONSISTENTE] Cada aceptación tiene una reserva registrada.
+
+=== COMPARACIÓN: recurso nuevo por versión ===
+Recurso / Mutex / Aceptadas / Guardadas / Carrera
+entero / False / 2 / 1 / SÍ
+entero / True / 1 / 1 / NO
+diccionario / False / 2 / 1 / SÍ
+diccionario / True / 1 / 1 / NO
+
+=== SISTEMA DE IMPRESORAS EN RED ===
+Configuración: 2 clientes / 1 impresoras
+1. Configurar clientes e impresoras
+2. Entero sin mutex
+3. Entero con mutex
+4. Diccionario sin mutex
+5. Diccionario con mutex
+6. Comparar las cuatro versiones
+0. Salir
+Opción: Simulador cerrado.

@@ -13,7 +13,7 @@ La situación permitirá analizar y desarrollar una solución para administrar l
 
 ## Avance de implementación
 
-Ejecuta `python impresoras.py` desde la raíz del repositorio (Python 3.10 o posterior, sin dependencias externas). La demostración compara un entero y un diccionario con dos clientes que intentan reservar una sola impresora, primero sin exclusión mutua y luego con un `Lock`.
+Ejecuta `python3 impresoras.py` desde la raíz del repositorio en Codespaces (Python 3.10 o posterior, sin dependencias externas). En Windows puedes usar `python impresoras.py`. El menú permite configurar clientes e impresoras y ejecutar una versión o comparar las cuatro: entero o diccionario, con o sin mutex.
 
 Consulta la [sección crítica y la tabla de resultados](docs/Implementacion.md) y la [salida real de la ejecución](docs/evidencia_ejecucion.txt).
 
@@ -21,10 +21,13 @@ El proyecto está dividido en archivos. Abre la carpeta completa en tu IDE y eje
 
 | Archivo | Función |
 |---|---|
-| `impresoras.py` | Ejecuta los cuatro casos y muestra sus resultados. |
+| `impresoras.py` | Inicia el menú interactivo. |
+| `interfaz_consola.py` | Solicita parámetros y muestra operaciones y comparación. |
 | `simulador.py` | Crea el recurso compartido y coordina los clientes. |
 | `hilo_cliente.py` | Define la única clase que hereda de `Thread`. |
 | `cupos_impresion.py` | Guarda la disponibilidad como entero. |
 | `registro_impresoras.py` | Guarda las asignaciones en un diccionario. |
 
 Una reserva rechazada significa que ya no hay impresoras libres. El aviso de doble reserva identifica el fallo que se busca reproducir sin mutex. Un error de ejecución indica que la prueba no pudo completarse.
+
+La interfaz actual muestra `CONDICIÓN DE CARRERA` si las aceptaciones no coinciden con las reservas guardadas. Consulta las instrucciones y los límites de la prueba en [Interfaz de consola](docs/Interfaz.md). Para ejecutar las pruebas automáticas: `python3 -m unittest -v test_interfaz`.

@@ -9,14 +9,21 @@ class RegistroImpresoras:
         self.registro: dict[str, str | None] = dict.fromkeys(ids)
         self._mutex = Lock() if sincronizado else None
 
-    def reservar(self, solicitud: str, pausa_demostracion=None) -> bool:
+    def reservar(self, solicitud: str, pausa_demostracion=None, evento=None) -> bool:
         with self._mutex if self._mutex is not None else nullcontext():
             # SECCIÓN CRÍTICA: buscar una impresora, validar y asignarla.
-            for impresora, asignada in self.registro.items():
+            lectura = self.registro.copy()
+            if evento is not None:
+                evento['antes'] = lectura
+            if pausa_demostracion is not None:
+                pausa_demostracion.wait()
+            for impresora, asignada in lectura.items():
                 if asignada is None:
-                    if pausa_demostracion is not None:
-                        pausa_demostracion.wait()
                     # Sin Lock, la segunda escritura puede borrar la primera.
                     self.registro[impresora] = solicitud
+                    if evento is not None:
+                        evento['despues'] = self.registro.copy()
                     return True
+            if evento is not None:
+                evento['despues'] = self.registro.copy()
             return False
